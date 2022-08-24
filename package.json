@@ -1,0 +1,19 @@
+{
+  "name": "usoapi-javascript",
+  "version": "1.0.0",
+  "description": "Consumo de API REST con JavaScript",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JovannyAlexander/UsoAPI-Javascript.git"
+  },
+  "author": "@JovannyAlexander",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/JovannyAlexander/UsoAPI-Javascript/issues"
+  },
+  "homepage": "https://github.com/JovannyAlexander/UsoAPI-Javascript#readme"
+}
