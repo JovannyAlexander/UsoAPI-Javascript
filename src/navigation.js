@@ -70,7 +70,15 @@ function categoryPage(){
     categoriesPreviewList.classList.add('inactive');
     genericSection.classList.remove('inactive');
     movieDetailSection.classList.add('inactive');
-}
+    
+    const [,datewgoryData] = location.hash.split('=');
+    const [categoyId, categoryName] =datewgoryData.split('-');
+
+    headerCategoryTitle.innerHTML = categoryName;
+     
+    getMoviesByCategory(categoyId);
+
+}   
 
 function moviePage(){
     console.log('MOVIE!!');
