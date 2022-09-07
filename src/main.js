@@ -112,7 +112,7 @@ async function getMoviesByCategory(id) {
  async function getMovieById(id) {
   const {data: movie } = await api('movie/' + id);
   
-  const movieImgUrl = 'https://image.tmdb.org/t/p/w300' + movie.poster_path;
+  const movieImgUrl = 'https://image.tmdb.org/t/p/w500' + movie.poster_path;
   headerSection.style.background = `
   linear-gradient(
     180deg, 
