@@ -10,6 +10,7 @@ const api = axios.create({
 
 // Utils
 
+
 function createMovies(movies, container){
   container.innerHTML = '';
   movies.forEach(movie => {
