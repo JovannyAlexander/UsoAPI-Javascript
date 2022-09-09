@@ -10,8 +10,18 @@ const api = axios.create({
 
 // Utils
 
+const lazyLoader = new IntersectionObserver((entries) =>{
+  entries.forEach((entry) =>{
+    if (entry.isIntersecting){
+      // console.log(entry.target.setAttribute); 
+     const url = entry.target.getAttribute('data-img');
+     entry.target.setAttribute('src', url);
+    }
+    
+  })
+});
 
-function createMovies(movies, container){
+function createMovies(movies, container, lazyLoad = false){
   container.innerHTML = '';
   movies.forEach(movie => {
     const movieContainer = document.createElement('div');
@@ -24,9 +34,16 @@ function createMovies(movies, container){
     movieImg.classList.add('movie-img');
     movieImg.setAttribute('alt', movie.title);
     movieImg.setAttribute(
-      'src',
+      lazyLoad ? 'data-img' : 'src',
       'https://image.tmdb.org/t/p/w300' + movie.poster_path,
     );
+    movieImg.addEventListener('error',() => {
+      movieImg.setAttribute('src', 'https://img.freepik.com/vector-gratis/set-rollos-pelicula-dibujados-mano_1017-8620.jpg?w=740&t=st=1662692304~exp=1662692904~hmac=dd779caf97917ba08ec2e5182c271c211637c5cc771d588e3dcb6e88663df324')
+    });
+
+    if (lazyLoad) {
+      lazyLoader.observe(movieImg);
+    }
 
     movieContainer.appendChild(movieImg);
     container.appendChild(movieContainer);
@@ -66,7 +83,7 @@ async function getTrendingMoviesPreview() {
     const {data} = await api('trending/movie/day');
     const movies = data.results;
     
-    createMovies(movies, trendingMoviesPreviewList);
+    createMovies(movies, trendingMoviesPreviewList, true);
  }
   
   
@@ -88,7 +105,7 @@ async function getMoviesByCategory(id) {
       },
     });
     const movies = data.results;
-    createMovies(movies, genericSection);
+    createMovies(movies, genericSection, true);
     
   } 
 
@@ -99,7 +116,7 @@ async function getMoviesByCategory(id) {
       },
     });
     const movies = data.results;
-    createMovies(movies, genericSection);
+    createMovies(movies, genericSection, true);
     
   } 
   
@@ -107,7 +124,7 @@ async function getMoviesByCategory(id) {
     const {data} = await api('trending/movie/day');
     const movies = data.results;
     
-    createMovies(movies, genericSection);
+    createMovies(movies, genericSection, true);
  }
   
  async function getMovieById(id) {
@@ -126,7 +143,7 @@ async function getMoviesByCategory(id) {
   movieDetailDescription.textContent = movie.overview;
   movieDetailScore.textContent = movie.vote_average;
 
-  createCategories(movie.genres, movieDetailCategoriesList);
+  createCategories(movie.genres, movieDetailCategoriesList, true);
   getRelatedMoviesId (id);
   
 }
@@ -135,6 +152,6 @@ async function getRelatedMoviesId (id) {
   const {data} = await api(`movie/${id}/recommendations`);
   const relatedMovies = data.results;
 
-  createMovies(relatedMovies, relatedMoviesContainer);
+  createMovies(relatedMovies, relatedMoviesContainer, true);
 
 }
